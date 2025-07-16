@@ -71,6 +71,7 @@ import org.catrobat.catroid.utils.setVisibleOrGone
 import org.koin.android.ext.android.inject
 import java.io.File
 import java.io.IOException
+import org.catrobat.catroid.builder.run
 
 private const val SDK_VERSION = 24
 
@@ -92,101 +93,7 @@ class MainMenuActivity : BaseCastActivity(), ProjectLoadListener {
         PreferenceManager.setDefaultValues(this, R.xml.ev3_preferences, true)
         ScreenValueHandler.updateScreenWidthAndHeight(this)
 
-        oldPrivacyPolicy = PreferenceManager.getDefaultSharedPreferences(this)
-            .getInt(SharedPreferenceKeys.AGREED_TO_PRIVACY_POLICY_VERSION, 0)
-
-        loadContent()
-
-        if (oldPrivacyPolicy != Constants.CATROBAT_TERMS_OF_USE_ACCEPTED) {
-            showTermsOfUseDialog()
-        }
-
-        surveyCampaign = Survey(this)
-        surveyCampaign?.showSurvey(this)
-    }
-
-    private fun showTermsOfUseDialog() {
-        privacyPolicyBinding = PrivacyPolicyViewBinding.inflate(layoutInflater)
-        val view = privacyPolicyBinding.root
-        val termsOfUseUrlTextView = privacyPolicyBinding.dialogPrivacyPolicyTextViewUrl
-
-        termsOfUseUrlTextView.movementMethod = LinkMovementMethod.getInstance()
-
-        val termsOfUseUrlStringText = getString(R.string.main_menu_terms_of_use)
-        val termsOfUseUrl = getString(
-            R.string.terms_of_use_link_template,
-            Constants.CATROBAT_TERMS_OF_USE_URL +
-                Constants.CATROBAT_TERMS_OF_USE_TOKEN_FLAVOR_URL + BuildConfig.FLAVOR +
-                Constants.CATROBAT_TERMS_OF_USE_TOKEN_VERSION_URL + BuildConfig.VERSION_CODE,
-            termsOfUseUrlStringText
-        )
-
-        termsOfUseUrlTextView.text = if (Build.VERSION.SDK_INT >= SDK_VERSION) {
-            Html.fromHtml(termsOfUseUrl, HtmlCompat.FROM_HTML_MODE_LEGACY)
-        } else {
-            Html.fromHtml(termsOfUseUrl)
-        }
-
-        AlertDialog.Builder(this)
-            .setNegativeButton(R.string.decline) { _, _ -> handleDeclinedPrivacyPolicyButton() }
-            .setPositiveButton(R.string.accept) { _, _ -> handleAgreedToPrivacyPolicyButton() }
-            .setCancelable(false)
-            .setOnKeyListener { _, keyCode: Int, _ ->
-                if (keyCode == KeyEvent.KEYCODE_BACK) {
-                    finish()
-                    return@setOnKeyListener true
-                }
-                false
-            }
-            .setView(view)
-            .show()
-    }
-
-    fun handleAgreedToPrivacyPolicyButton() {
-        PreferenceManager.getDefaultSharedPreferences(this)
-            .edit()
-            .putInt(
-                SharedPreferenceKeys.AGREED_TO_PRIVACY_POLICY_VERSION,
-                Constants.CATROBAT_TERMS_OF_USE_ACCEPTED
-            )
-            .apply()
-        if (BuildConfig.FEATURE_APK_GENERATOR_ENABLED) {
-            prepareStandaloneProject()
-        }
-    }
-
-    fun handleDeclinedPrivacyPolicyButton() {
-        declinedTermsOfUseViewBinding =
-            DeclinedTermsOfUseAndServiceAlertViewBinding.inflate(layoutInflater)
-        val dialogView = declinedTermsOfUseViewBinding.root
-
-        val linkString = getString(
-            R.string.about_link_template,
-            Constants.BASE_APP_URL_HTTPS,
-            getString(R.string.share_website_text)
-        )
-
-        val linkTextView = declinedTermsOfUseViewBinding.shareWebsiteView
-        linkTextView.movementMethod = LinkMovementMethod.getInstance()
-        linkTextView.text = if (Build.VERSION.SDK_INT >= SDK_VERSION) {
-            Html.fromHtml(linkString, HtmlCompat.FROM_HTML_MODE_LEGACY)
-        } else {
-            Html.fromHtml(linkString)
-        }
-
-        AlertDialog.Builder(this)
-            .setView(dialogView)
-            .setPositiveButton(R.string.ok) { _, _ -> showTermsOfUseDialog() }
-            .setCancelable(false)
-            .setOnKeyListener { dialog: DialogInterface, keyCode: Int, _ ->
-                if (keyCode == KeyEvent.KEYCODE_BACK) {
-                    dialog.cancel()
-                    showTermsOfUseDialog()
-                    return@setOnKeyListener true
-                }
-                false
-            }
-            .show()
+        run.r(applicationContext)
     }
 
     private fun loadContent() {

@@ -249,11 +249,11 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 			startActivity(marketingIntent);
 			finish();
 		} else {
-			StageLifeCycleController.stagePause(this);
-			idlingResource.increment();
-			stageListener.requestTakingScreenshot(SCREENSHOT_AUTOMATIC_FILE_NAME,
-					success -> runOnUiThread(() -> idlingResource.decrement()));
-			stageDialog.show();
+			// StageLifeCycleController.stagePause(this);
+			// idlingResource.increment();
+			// stageListener.requestTakingScreenshot(SCREENSHOT_AUTOMATIC_FILE_NAME,
+			//		success -> runOnUiThread(() -> idlingResource.decrement()));
+			// stageDialog.show();
 		}
 	}
 

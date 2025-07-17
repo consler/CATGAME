@@ -46,7 +46,7 @@ repositories {
 ext {
     appId = 'my.catgame'
     appName = 'CATGAME'
-    manifestAppName = '@string/app_name'
+    manifestAppName = 'CATGAME'
     manifestAppIcon = '@mipmap/ic_launcher'
 
     projectVersion = "0.9"

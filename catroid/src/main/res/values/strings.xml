@@ -112,12 +112,9 @@
     <string formatted="false" name="main_menu_upload">Upload project</string>
     <string formatted="false" name="main_menu_play">Play project</string>
 
-    <string formatted="false" name="main_menu_rate_app">Rate us!</string>
     <string formatted="false" name="main_menu_terms_of_use">Terms of Use and Service</string>
     <string formatted="false" name="main_menu_privacy_policy">Privacy Policy</string>
     <string formatted="false" name="main_menu_about">About this app</string>
-    <string formatted="false" name="main_menu_login">Login</string>
-    <string formatted="false" name="main_menu_logout">Logout</string>
     <string formatted="false" name="main_menu_scratch_converter">Scratch converter</string>
     <string formatted="false" name="main_menu_play_store_not_installed">App store not found</string>
     <!--  -->
@@ -371,8 +368,6 @@
     <!-- ERRORS -->
 
     <!-- Terms of Use and Service Error -->
-    <string formatted="false" name="declined_terms_of_use_and_service_alert">To use our app, it is necessary to accept our Terms of Use and Service.
-        However, if you don\’t feel comfortable to do so, you can use our free web-services on</string>
 
     <string formatted="false" name="wtf_error">An unexpected error occurred: I could not restore the sample project.</string>
 
@@ -742,8 +737,6 @@
     <!--  -->
 
     <!-- Privacy Policy -->
-    <string formatted="false" name="disclaimer_privacy_police_header_headline">Welcome!</string>
-    <string formatted="false" name="disclaimer_privacy_policy_header">To use this app, please accept our</string>
     <!-- -->
 
     <!-- About Dialog -->

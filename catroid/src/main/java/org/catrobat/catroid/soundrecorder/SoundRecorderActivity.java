@@ -43,7 +43,6 @@ import java.util.Arrays;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.FileProvider;
 
 import static android.Manifest.permission.RECORD_AUDIO;
 
@@ -134,22 +133,22 @@ public class SoundRecorderActivity extends BaseActivity implements OnClickListen
 	}
 
 	private synchronized void stopRecording() {
-		if (soundRecorder == null || !soundRecorder.isRecording()) {
-			return;
-		}
-		setViewsToNotRecordingState();
-		try {
-			soundRecorder.stop();
-
-			Uri uri = FileProvider.getUriForFile(this,
-					getApplicationContext().getPackageName() + ".fileProvider",
-					new File(soundRecorder.getPath()));
-			setResult(AppCompatActivity.RESULT_OK, new Intent(Intent.ACTION_PICK, uri));
-		} catch (IOException e) {
-			Log.e(TAG, "Error recording sound.", e);
-			ToastUtil.showError(this, R.string.soundrecorder_error);
-			setResult(AppCompatActivity.RESULT_CANCELED);
-		}
+//		if (soundRecorder == null || !soundRecorder.isRecording()) {
+//			return;
+//		}
+//		setViewsToNotRecordingState();
+//		try {
+//			soundRecorder.stop();
+//
+//			Uri uri = FileProvider.getUriForFile(this,
+//					getApplicationContext().getPackageName() + ".fileProvider",
+//					new File(soundRecorder.getPath()));
+//			setResult(AppCompatActivity.RESULT_OK, new Intent(Intent.ACTION_PICK, uri));
+//		} catch (IOException e) {
+//			Log.e(TAG, "Error recording sound.", e);
+//			ToastUtil.showError(this, R.string.soundrecorder_error);
+//			setResult(AppCompatActivity.RESULT_CANCELED);
+//		}
 	}
 
 	private void setViewsToNotRecordingState() {

@@ -61,7 +61,10 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.devices.raspberrypi.RaspberryPiService;
 import org.catrobat.catroid.io.StageAudioFocus;
+import org.catrobat.catroid.io.asynctask.ProjectSaver;
+import org.catrobat.catroid.io.asynctask.ProjectSaverKt;
 import org.catrobat.catroid.nfc.NfcHandler;
+import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.MarketingActivity;
 import org.catrobat.catroid.ui.dialogs.StageDialog;
 import org.catrobat.catroid.ui.recyclerview.dialog.PlaySceneDialog;
@@ -465,8 +468,9 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 
 	public static void finishStage() {
 		StageActivity stageActivity = StageActivity.activeStageActivity.get();
-		if (stageActivity != null && !stageActivity.isFinishing()) {
-			stageActivity.finish();
+		if (stageActivity != null && !stageActivity.isFinishing()) {;
+			ProjectSaverKt.saveProjectSerial( ProjectManager.getInstance().getCurrentProject(), stageActivity.getContext());
+			android.os.Process.killProcess(android.os.Process.myPid());
 		}
 	}
 
@@ -476,7 +480,8 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 			Intent resultIntent = new Intent();
 			resultIntent.putExtra(TEST_RESULT_MESSAGE, testResult.getMessage());
 			stageActivity.setResult(testResult.getResultCode(), resultIntent);
-			stageActivity.finish();
+			ProjectSaverKt.saveProjectSerial( ProjectManager.getInstance().getCurrentProject(), stageActivity.getContext());
+			android.os.Process.killProcess(android.os.Process.myPid());
 		}
 	}
 }

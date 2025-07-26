@@ -26,6 +26,7 @@ package org.catrobat.catroid.builder;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.FlavoredConstants;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.exceptions.LoadingProjectException;
 import org.catrobat.catroid.exceptions.ProjectException;
 import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.stage.StageActivity;
@@ -38,15 +39,35 @@ import java.io.IOException;
 
 public class run
 {
-	public static void r(Context context) throws IOException, ProjectException {
-		copy.copyAssetFolder(context, "CATGAME");
+	public static void r(Context context) throws IOException, ProjectException
+	{
+		File catgame = new File(context.getCacheDir(), "CATGAME");
+
+		if(catgame.exists())
+		{
+			initiate(context);
+
+		}
+		else
+		{
+			copy.copyAssetFolder(context, "CATGAME");
+			catgame.createNewFile();
+			new File(context.getFilesDir(), "DeviceVariables.json").delete();
+
+			initiate(context);
+
+		}
+
+	}
+
+	private static void initiate(Context context) throws LoadingProjectException, IOException
+	{
 		File projectDir = new File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, "CATGAME");
 		Project project = XstreamSerializer.getInstance().loadProject(projectDir, context);
 		ProjectManager.getInstance().setCurrentProject(project);
 		Intent intent = new Intent(context, StageActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		context.startActivity(intent);
+
 	}
-
-
 
 }

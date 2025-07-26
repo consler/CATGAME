@@ -35,7 +35,7 @@ import android.provider.MediaStore
 import android.provider.MediaStore.ACTION_IMAGE_CAPTURE
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.FileProvider
+// import androidx.core.content.FileProvider
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.common.Constants.CAMERA_CACHE_DIRECTORY
@@ -60,11 +60,12 @@ class ImportFromPocketPaintLauncher(private val activity: Activity) : ImportLaun
     private val pocketPaintImageFileName = TMP_IMAGE_FILE_NAME + DEFAULT_IMAGE_EXTENSION
 
     fun getPocketPaintCacheUri(): Uri {
-        return FileProvider.getUriForFile(
-            activity,
-            activity.applicationContext.packageName + ".fileProvider",
-            File(POCKET_PAINT_CACHE_DIRECTORY, pocketPaintImageFileName)
-        )
+//        return FileProvider.getUriForFile(
+//            activity,
+//            activity.applicationContext.packageName + ".fileProvider",
+//            File(POCKET_PAINT_CACHE_DIRECTORY, pocketPaintImageFileName)
+//        )
+        return Uri.parse("")
     }
 
     private fun createEmptyImageFile(): File {
@@ -124,11 +125,12 @@ class ImportFromCameraLauncher(private val activity: AppCompatActivity) : Import
     private val cameraImageFileName = "$TMP_IMAGE_FILE_NAME.jpg"
 
     fun getCacheCameraUri(): Uri {
-        return FileProvider.getUriForFile(
-            activity,
-            activity.applicationContext.packageName + ".fileProvider",
-            File(CAMERA_CACHE_DIRECTORY, cameraImageFileName)
-        )
+//        return FileProvider.getUriForFile(
+//            activity,
+//            activity.applicationContext.packageName + ".fileProvider",
+//            File(CAMERA_CACHE_DIRECTORY, cameraImageFileName)
+//        )
+        return Uri.parse("")
     }
 
     fun createCameraCacheDir() {

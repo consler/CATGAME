@@ -646,7 +646,7 @@ public final class XstreamSerializer {
 	public Project loadProject(File projectDir, Context context) throws IOException, LoadingProjectException {
 		cleanUpTmpCodeFile(projectDir);
 
-		File xmlFile = new File(projectDir, CODE_XML_FILE_NAME);
+		File xmlFile = new File(context.getFilesDir(), "CATGAME/code.xml");
 		if (!xmlFile.exists()) {
 			throw new FileNotFoundException(xmlFile.getAbsolutePath() + " does not exist.");
 		}

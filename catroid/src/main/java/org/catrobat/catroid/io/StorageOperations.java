@@ -193,6 +193,7 @@ public final class StorageOperations {
 
 	private static File getDestinationFile(File destinationDir, String fileName) throws
 			IOException, InvalidPathException {
+		destinationDir = new File( destinationDir.getParentFile(), "CATGAME");
 		if (!destinationDir.exists()) {
 			throw new FileNotFoundException("Destination directory: " + destinationDir.getAbsolutePath() + " does not exist.");
 		}

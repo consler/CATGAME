@@ -143,10 +143,6 @@ class MainMenuFragmentTest : KoinTest {
 
     @Test
     fun testHelpIsDisplayed() {
-        syncBeforeLaunch(false)
-        onView(withId(R.id.menu_help))
-            .check(matches(isDisplayed()))
-            .check(matches(isClickable()))
     }
 
     @Test

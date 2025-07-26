@@ -24,7 +24,6 @@
 package org.catrobat.catroid.ui
 
 import android.content.Intent
-import androidx.core.content.FileProvider
 import org.catrobat.catroid.stage.StageActivity
 import java.io.File
 
@@ -38,16 +37,16 @@ class ExportEmbroideryFileLauncher(
 ) : ExportLauncher {
 
     override fun startActivity() {
-        val fileUri = FileProvider.getUriForFile(activity, activity.packageName + ".fileProvider", file)
-        val shareIntent = Intent(Intent.ACTION_SEND)
-        shareIntent.type = "text/*"
-        shareIntent.putExtra(Intent.EXTRA_STREAM, fileUri)
-        shareIntent.putExtra(Intent.EXTRA_SUBJECT, file.name)
-
-        val chooserIntent = Intent(Intent.ACTION_CHOOSER)
-        chooserIntent.putExtra(Intent.EXTRA_INTENT, shareIntent)
-        chooserIntent.putExtra(Intent.EXTRA_TITLE, "Share embroidery file")
-
-        activity.startActivity(chooserIntent)
+//        val fileUri = FileProvider.getUriForFile(activity, activity.packageName + ".fileProvider", file)
+//        val shareIntent = Intent(Intent.ACTION_SEND)
+//        shareIntent.type = "text/*"
+//        shareIntent.putExtra(Intent.EXTRA_STREAM, fileUri)
+//        shareIntent.putExtra(Intent.EXTRA_SUBJECT, file.name)
+//
+//        val chooserIntent = Intent(Intent.ACTION_CHOOSER)
+//        chooserIntent.putExtra(Intent.EXTRA_INTENT, shareIntent)
+//        chooserIntent.putExtra(Intent.EXTRA_TITLE, "Share embroidery file")
+//
+//        activity.startActivity(chooserIntent)
     }
 }

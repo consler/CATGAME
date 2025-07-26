@@ -47,7 +47,7 @@ ext {
     appId = 'my.catgame'
     appName = 'CATGAME'
     manifestAppName = 'CATGAME'
-    manifestAppIcon = '@mipmap/ic_launcher'
+    manifestAppIcon = '@drawable/icon'
 
     projectVersion = "0.9"
     gdxVersion = "1.9.10"

@@ -11,8 +11,8 @@
       "type": "SINGLE",
       "filters": [],
       "attributes": [],
-      "versionCode": 97,
-      "versionName": "1.3.0",
+      "versionCode": 1,
+      "versionName": "1.0",
       "outputFile": "catroid-pocketCode-signedRelease.apk"
     }
   ],

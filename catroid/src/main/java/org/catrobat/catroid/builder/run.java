@@ -41,7 +41,7 @@ public class run
 {
 	public static void r(Context context) throws IOException, ProjectException
 	{
-		File catgame = new File(context.getCacheDir(), "CATGAME");
+		File catgame = new File(context.getCacheDir(), "CATGAME"); // file to check whether this is the first time loading the app
 
 		if(catgame.exists())
 		{
@@ -52,7 +52,8 @@ public class run
 		{
 			copy.copyAssetFolder(context, "CATGAME");
 			catgame.createNewFile();
-			new File(context.getFilesDir(), "DeviceVariables.json").delete();
+			new File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, "CATGAME/DeviceVariables.json").delete(); // we dont want to keep the device variables from the app distributor
+			new File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, "CATGAME/DeviceLists.json").delete();
 
 			initiate(context);
 

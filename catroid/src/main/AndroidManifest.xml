@@ -89,7 +89,8 @@
     <application
             android:name=".CatroidApplication"
             android:allowBackup="false"
-            android:icon="${appIcon}"
+            android:icon="@drawable/icon"
+            android:roundIcon="@drawable/icon_round"
             android:label="${appName}"
             android:theme="@style/Catroid"
             android:supportsRtl="true"

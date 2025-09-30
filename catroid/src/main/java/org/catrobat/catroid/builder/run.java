@@ -46,7 +46,6 @@ public class run
 		if(catgame.exists())
 		{
 			initiate(context);
-
 		}
 		else
 		{
@@ -56,9 +55,7 @@ public class run
 			new File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, "CATGAME/DeviceLists.json").delete();
 
 			initiate(context);
-
 		}
-
 	}
 
 	private static void initiate(Context context) throws LoadingProjectException, IOException
@@ -68,7 +65,6 @@ public class run
 		ProjectManager.getInstance().setCurrentProject(project);
 		Intent intent = new Intent(context, StageActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		context.startActivity(intent);
-
 	}
 
 }

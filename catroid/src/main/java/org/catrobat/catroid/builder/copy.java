@@ -10,17 +10,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-// this entire thing is ai generated but it works!
+// this entire thing is ai generated but it works
 public class copy {
 	private static final String TAG = "AssetFolderCopier";
 
-	/**
-	 * Copy an entire folder (and its subfolders) from assets to internal storage.
-	 *
-	 * @param context      Application or Activity context
-	 * @param assetFolder  The path inside assets (e.g. "my_data")
-	 * @throws IOException if anything goes wrong during copying
-	 */
 	public static void copyAssetFolder(Context context, String assetFolder) throws IOException {
 		AssetManager assetManager = context.getAssets();
 		String[] assets = assetManager.list(assetFolder);
@@ -44,13 +37,6 @@ public class copy {
 		}
 	}
 
-	/**
-	 * Copy a single file from assets to internal storage, preserving path.
-	 *
-	 * @param context    Application or Activity context
-	 * @param assetPath  The path inside assets to the file (e.g. "my_data/config.json")
-	 * @throws IOException if anything goes wrong during copying
-	 */
 	private static void copyAssetFile(Context context, String assetPath) throws IOException {
 		AssetManager assetManager = context.getAssets();
 		InputStream in = assetManager.open(assetPath);

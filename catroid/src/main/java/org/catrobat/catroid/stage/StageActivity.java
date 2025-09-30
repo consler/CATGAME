@@ -470,7 +470,7 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 		StageActivity stageActivity = StageActivity.activeStageActivity.get();
 		if (stageActivity != null && !stageActivity.isFinishing()) {;
 			ProjectSaverKt.saveProjectSerial( ProjectManager.getInstance().getCurrentProject(), stageActivity.getContext());
-			android.os.Process.killProcess(android.os.Process.myPid());
+			stageActivity.finishAffinity();
 		}
 	}
 

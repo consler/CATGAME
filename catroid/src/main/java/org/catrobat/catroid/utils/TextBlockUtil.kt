@@ -24,8 +24,6 @@ package org.catrobat.catroid.utils
 
 import android.graphics.Point
 import android.graphics.Rect
-import com.google.mlkit.nl.languageid.LanguageIdentification
-import com.google.mlkit.vision.text.Text
 import com.huawei.hms.mlsdk.langdetect.MLLangDetectorFactory
 import com.huawei.hms.mlsdk.langdetect.local.MLLocalLangDetector
 import com.huawei.hms.mlsdk.langdetect.local.MLLocalLangDetectorSetting
@@ -44,28 +42,11 @@ object TextBlockUtil {
     private var imageWidth = 0
     private var imageHeight = 0
     private const val MAX_TEXT_SIZE = 100
-    private var languageIdentifierGoogle = LanguageIdentification.getClient()
     private var languageDetectorFactoryHuawei: MLLangDetectorFactory = MLLangDetectorFactory.getInstance()
     var languageDetectorSettingHuawei: MLLocalLangDetectorSetting = MLLocalLangDetectorSetting.Factory()
         .setTrustedThreshold(TRUSTED_THRESHOLD)
         .create()
     var languageIdentifierHuawei: MLLocalLangDetector = languageDetectorFactoryHuawei.getLocalLangDetector(languageDetectorSettingHuawei)
-
-    fun setTextBlocksGoogle(text: List<Text.TextBlock>, width: Int, height: Int) {
-        imageWidth = width
-        imageHeight = height
-
-        textBlockLanguages.clear()
-        textBlockBoundingBoxes.clear()
-
-        text.forEachIndexed { index, textBlock ->
-            textBlock.text.let { textBlocks.add(index, it) }
-            textBlock.boundingBox?.let { textBlockBoundingBoxes.add(index, it) }
-            languageIdentifierGoogle.identifyLanguage(textBlock.text).addOnSuccessListener { languageCode ->
-                textBlockLanguages[index] = languageCode
-            }
-        }
-    }
 
     fun setTextBlocksHuawei(text: List<MLText.Block>, width: Int, height: Int) {
         imageWidth = width

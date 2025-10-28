@@ -26,47 +26,19 @@ package org.catrobat.catroid.camera.mlkitdetectors
 import android.media.Image
 import android.util.Log
 import com.google.android.gms.tasks.OnSuccessListener
-import com.google.mlkit.vision.common.InputImage
-import com.google.mlkit.vision.objects.DetectedObject
-import com.google.mlkit.vision.objects.ObjectDetection
-import com.google.mlkit.vision.objects.defaults.ObjectDetectorOptions
 import org.catrobat.catroid.camera.CatdroidImageAnalyzer
 import org.catrobat.catroid.camera.DetectorsCompleteListener
 
 private val objectDetectionClient by lazy {
-    ObjectDetection.getClient(
-        ObjectDetectorOptions.Builder().enableMultipleObjects()
-            .enableClassification().build()
-    )
-}
-
-class ObjectDetectorOnSuccessListener : OnSuccessListener<MutableList<DetectedObject>> {
-    override fun onSuccess(detectedObjects: MutableList<DetectedObject>) {
-        ObjectDetectorResults.result = detectedObjects.map { it.trackingId to it }.toMap()
-    }
+    // removed to save space
 }
 
 object ObjectDetector : Detector {
-    override fun processImage(
-        mediaImage: Image,
-        inputImage: InputImage,
-        onCompleteListener: DetectorsCompleteListener
-    ) {
-        objectDetectionClient.process(inputImage)
-            .addOnSuccessListener(ObjectDetectorOnSuccessListener())
-            .addOnFailureListener { exception ->
-                Log.e(
-                    javaClass.simpleName,
-                    CatdroidImageAnalyzer.DETECTION_PROCESS_ERROR_MESSAGE,
-                    exception
-                )
-            }.addOnCompleteListener {
-                onCompleteListener.onComplete()
-            }
+    override fun processImage() {
+        // removed to save space
     }
 }
 
 object ObjectDetectorResults {
-    @get:Synchronized @set:Synchronized
-    var result: Map<Int?, DetectedObject> = HashMap()
+    // removed to save sapce
 }

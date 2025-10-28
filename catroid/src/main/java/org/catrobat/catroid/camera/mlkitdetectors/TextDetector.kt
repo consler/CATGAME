@@ -23,49 +23,13 @@
 
 package org.catrobat.catroid.camera.mlkitdetectors
 
-import android.media.Image
-import android.util.Log
-import com.google.mlkit.vision.common.InputImage
-import com.google.mlkit.vision.text.TextRecognition
-import org.catrobat.catroid.R
-import org.catrobat.catroid.camera.CatdroidImageAnalyzer
-import org.catrobat.catroid.camera.DetectorsCompleteListener
-import org.catrobat.catroid.camera.VisualDetectionHandler
-import org.catrobat.catroid.stage.StageActivity
-import org.catrobat.catroid.utils.TextBlockUtil
 
 private val textDetectionClient by lazy {
-    TextRecognition.getClient()
+    // removed to save space
 }
 
 object TextDetector : Detector {
-    override fun processImage(
-        mediaImage: Image,
-        inputImage: InputImage,
-        onCompleteListener: DetectorsCompleteListener
-    ) {
-        textDetectionClient.process(inputImage)
-            .addOnSuccessListener { text ->
-                VisualDetectionHandler.updateTextSensorValues(text.text, text.textBlocks.size)
-                TextBlockUtil.setTextBlocksGoogle(
-                    text.textBlocks,
-                    mediaImage.width,
-                    mediaImage.height
-                )
-            }
-            .addOnFailureListener { e ->
-                val context = StageActivity.activeStageActivity.get()
-                StageActivity.messageHandler.obtainMessage(
-                    StageActivity.SHOW_TOAST,
-                    arrayListOf(context?.getString(R.string.camera_error_text_detection))
-                ).sendToTarget()
-                Log.e(
-                    javaClass.simpleName,
-                    CatdroidImageAnalyzer.DETECTION_PROCESS_ERROR_MESSAGE,
-                    e
-                )
-            }.addOnCompleteListener {
-                onCompleteListener.onComplete()
-            }
+    override fun processImage() {
+        // removed to save space
     }
 }

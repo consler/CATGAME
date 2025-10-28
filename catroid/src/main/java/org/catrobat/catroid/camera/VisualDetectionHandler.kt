@@ -25,9 +25,6 @@ package org.catrobat.catroid.camera
 
 import android.graphics.Point
 import android.graphics.Rect
-import com.google.mlkit.vision.face.Face
-import com.google.mlkit.vision.pose.Pose
-import com.google.mlkit.vision.pose.PoseLandmark
 import com.huawei.hms.mlsdk.face.MLFace
 import com.huawei.hms.mlsdk.skeleton.MLJoint
 import com.huawei.hms.mlsdk.skeleton.MLSkeleton
@@ -75,14 +72,6 @@ object VisualDetectionHandler {
     @JvmStatic
     fun removeListener(listener: SensorCustomEventListener) {
         sensorListeners.remove(listener)
-    }
-
-    fun translateGoogleFaceToVisualDetectionFace(faceList: List<Face>): List<VisualDetectionHandlerFace> {
-        val newFacesList = mutableListOf<VisualDetectionHandlerFace>()
-        for (face in faceList) {
-            newFacesList.add(VisualDetectionHandlerFace(face.trackingId, face.boundingBox))
-        }
-        return newFacesList
     }
 
     fun translateHuaweiFaceToVisualDetectionFace(faceList: List<MLFace>):
@@ -170,115 +159,6 @@ object VisualDetectionHandler {
                 facePosition.toPosition()
             )
             it.writeToSensor(sensors.third, faceSize.toDouble())
-        }
-    }
-
-    fun updateAllPoseSensorValues(pose: Pose?, imageWidth: Int, imageHeight: Int) {
-        val allPoseLandmarks = pose?.allPoseLandmarks
-
-        if (allPoseLandmarks.isNullOrEmpty()) return
-
-        allPoseLandmarks.forEach { poseLandmark ->
-            poseLandmark?.let {
-                val poseLandmarkPositionTranslated =
-                    translateToStageCoordinates(
-                        poseLandmark.position.x.toDouble(),
-                        poseLandmark.position.y.toDouble(),
-                        imageWidth,
-                        imageHeight
-                    )
-
-                updatePoseSensorValues(poseLandmark, poseLandmarkPositionTranslated)
-            }
-        }
-    }
-
-    private fun updatePoseSensorValues(poseLandmark: PoseLandmark, position: Point) {
-        sensorListeners.forEach { sensorListener ->
-            updateHeadPoseSensorValues(poseLandmark.landmarkType, sensorListener, position)
-            updateUpperBodyPoseSensorValues(poseLandmark.landmarkType, sensorListener, position)
-            updateLowerBodyPoseSensorValues(poseLandmark.landmarkType, sensorListener, position)
-        }
-    }
-
-    private fun updateHeadPoseSensorValues(
-        poseLandmarkType: Int,
-        sensorListener: SensorCustomEventListener,
-        position: Point
-    ) {
-        val positionSensor = when (poseLandmarkType) {
-            PoseLandmark.NOSE -> Pair(Sensors.NOSE_X, Sensors.NOSE_Y)
-            PoseLandmark.LEFT_EYE_INNER -> Pair(Sensors.LEFT_EYE_INNER_X, Sensors.LEFT_EYE_INNER_Y)
-            PoseLandmark.LEFT_EYE -> Pair(Sensors.LEFT_EYE_CENTER_X, Sensors.LEFT_EYE_CENTER_Y)
-            PoseLandmark.LEFT_EYE_OUTER -> Pair(Sensors.LEFT_EYE_OUTER_X, Sensors.LEFT_EYE_OUTER_Y)
-            PoseLandmark.RIGHT_EYE_INNER -> Pair(RIGHT_EYE_INNER_X, RIGHT_EYE_INNER_Y)
-            PoseLandmark.RIGHT_EYE -> Pair(Sensors.RIGHT_EYE_CENTER_X, Sensors.RIGHT_EYE_CENTER_Y)
-            PoseLandmark.RIGHT_EYE_OUTER -> Pair(RIGHT_EYE_OUTER_X, RIGHT_EYE_OUTER_Y)
-            PoseLandmark.LEFT_EAR -> Pair(Sensors.LEFT_EAR_X, Sensors.LEFT_EAR_Y)
-            PoseLandmark.RIGHT_EAR -> Pair(Sensors.RIGHT_EAR_X, Sensors.RIGHT_EAR_Y)
-            PoseLandmark.LEFT_MOUTH -> Pair(MOUTH_LEFT_CORNER_X, MOUTH_LEFT_CORNER_Y)
-            PoseLandmark.RIGHT_MOUTH -> Pair(MOUTH_RIGHT_CORNER_X, MOUTH_RIGHT_CORNER_Y)
-            else -> null
-        }
-        positionSensor?.let {
-            sensorListener.writePositionAccordingToRotationToSensor(
-                it.first, it.second,
-                position.toPosition()
-            )
-        }
-    }
-
-    private fun updateUpperBodyPoseSensorValues(
-        poseLandmarkType: Int,
-        sensorListener: SensorCustomEventListener,
-        position: Point
-    ) {
-        val positionSensor = when (poseLandmarkType) {
-            PoseLandmark.LEFT_SHOULDER -> Pair(LEFT_SHOULDER_X, LEFT_SHOULDER_Y)
-            PoseLandmark.RIGHT_SHOULDER -> Pair(RIGHT_SHOULDER_X, RIGHT_SHOULDER_Y)
-            PoseLandmark.LEFT_ELBOW -> Pair(Sensors.LEFT_ELBOW_X, Sensors.LEFT_ELBOW_Y)
-            PoseLandmark.RIGHT_ELBOW -> Pair(Sensors.RIGHT_ELBOW_X, Sensors.RIGHT_ELBOW_Y)
-            PoseLandmark.LEFT_WRIST -> Pair(Sensors.LEFT_WRIST_X, Sensors.LEFT_WRIST_Y)
-            PoseLandmark.RIGHT_WRIST -> Pair(Sensors.RIGHT_WRIST_X, Sensors.RIGHT_WRIST_Y)
-            PoseLandmark.LEFT_PINKY -> Pair(Sensors.LEFT_PINKY_X, Sensors.LEFT_PINKY_Y)
-            PoseLandmark.RIGHT_PINKY -> Pair(Sensors.RIGHT_PINKY_X, Sensors.RIGHT_PINKY_Y)
-            PoseLandmark.LEFT_INDEX -> Pair(Sensors.LEFT_INDEX_X, Sensors.LEFT_INDEX_Y)
-            PoseLandmark.RIGHT_INDEX -> Pair(Sensors.RIGHT_INDEX_X, Sensors.RIGHT_INDEX_Y)
-            PoseLandmark.LEFT_THUMB -> Pair(Sensors.LEFT_THUMB_X, Sensors.LEFT_THUMB_Y)
-            PoseLandmark.RIGHT_THUMB -> Pair(Sensors.RIGHT_THUMB_X, Sensors.RIGHT_THUMB_Y)
-            else -> null
-        }
-        positionSensor?.let {
-            sensorListener.writePositionAccordingToRotationToSensor(
-                it.first, it.second,
-                position.toPosition()
-            )
-        }
-    }
-
-    private fun updateLowerBodyPoseSensorValues(
-        poseLandmarkType: Int,
-        sensorListener: SensorCustomEventListener,
-        position: Point
-    ) {
-        val positionSensor = when (poseLandmarkType) {
-            PoseLandmark.LEFT_HIP -> Pair(Sensors.LEFT_HIP_X, Sensors.LEFT_HIP_Y)
-            PoseLandmark.RIGHT_HIP -> Pair(Sensors.RIGHT_HIP_X, Sensors.RIGHT_HIP_Y)
-            PoseLandmark.LEFT_KNEE -> Pair(Sensors.LEFT_KNEE_X, Sensors.LEFT_KNEE_Y)
-            PoseLandmark.RIGHT_KNEE -> Pair(Sensors.RIGHT_KNEE_X, Sensors.RIGHT_KNEE_Y)
-            PoseLandmark.LEFT_ANKLE -> Pair(Sensors.LEFT_ANKLE_X, Sensors.LEFT_ANKLE_Y)
-            PoseLandmark.RIGHT_ANKLE -> Pair(Sensors.RIGHT_ANKLE_X, Sensors.RIGHT_ANKLE_Y)
-            PoseLandmark.LEFT_HEEL -> Pair(Sensors.LEFT_HEEL_X, Sensors.LEFT_HEEL_Y)
-            PoseLandmark.RIGHT_HEEL -> Pair(Sensors.RIGHT_HEEL_X, Sensors.RIGHT_HEEL_Y)
-            PoseLandmark.LEFT_FOOT_INDEX -> Pair(LEFT_FOOT_INDEX_X, LEFT_FOOT_INDEX_Y)
-            PoseLandmark.RIGHT_FOOT_INDEX -> Pair(RIGHT_FOOT_INDEX_X, RIGHT_FOOT_INDEX_Y)
-            else -> null
-        }
-        positionSensor?.let {
-            sensorListener.writePositionAccordingToRotationToSensor(
-                it.first, it.second,
-                position.toPosition()
-            )
         }
     }
 

@@ -26,7 +26,6 @@ import android.content.Context
 import androidx.camera.core.ExperimentalGetImage
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageProxy
-import com.google.mlkit.vision.common.InputImage
 import org.catrobat.catroid.camera.mlkitdetectors.Detector
 import org.catrobat.catroid.camera.mlkitdetectors.FaceDetector
 import org.catrobat.catroid.camera.mlkitdetectors.ObjectDetector
@@ -43,13 +42,7 @@ object CatdroidImageAnalyzer : ImageAnalysis.Analyzer {
 
     @ExperimentalGetImage
     override fun analyze(imageProxy: ImageProxy) {
-        imageProxy.image?.let { mediaImage ->
-            val completeListener = DetectorsCompleteListener(activeDetectors.size, imageProxy)
-            val image = InputImage.fromMediaImage(mediaImage, imageProxy.imageInfo.rotationDegrees)
-            for (detector in activeDetectors) {
-                detector.processImage(mediaImage, image, completeListener)
-            }
-        }
+        //removed to save space
     }
 
     fun setActiveDetectorsWithContext(context: Context?) {

@@ -23,46 +23,13 @@
 
 package org.catrobat.catroid.camera.mlkitdetectors
 
-import android.media.Image
-import android.util.Log
-import com.google.mlkit.vision.common.InputImage
-import com.google.mlkit.vision.pose.PoseDetection
-import com.google.mlkit.vision.pose.defaults.PoseDetectorOptions
-import org.catrobat.catroid.camera.CatdroidImageAnalyzer
-import org.catrobat.catroid.camera.DetectorsCompleteListener
-import org.catrobat.catroid.camera.VisualDetectionHandler
-
 private val poseDetectionClient by lazy {
-    PoseDetection.getClient(
-        PoseDetectorOptions.Builder()
-            .setDetectorMode(PoseDetectorOptions.STREAM_MODE)
-            .build()
-    )
+    // removed to save space
 }
 
 object PoseDetector : Detector {
 
-    override fun processImage(
-        mediaImage: Image,
-        inputImage: InputImage,
-        onCompleteListener: DetectorsCompleteListener
-    ) {
-        poseDetectionClient.process(inputImage)
-            .addOnSuccessListener { pose ->
-                VisualDetectionHandler.updateAllPoseSensorValues(
-                    pose,
-                    mediaImage.width,
-                    mediaImage.height
-                )
-            }
-            .addOnFailureListener { exception ->
-                Log.e(
-                    javaClass.simpleName,
-                    CatdroidImageAnalyzer.DETECTION_PROCESS_ERROR_MESSAGE,
-                    exception
-                )
-            }.addOnCompleteListener {
-                onCompleteListener.onComplete()
-            }
+    override fun processImage() {
+        // removed to save space
     }
 }
